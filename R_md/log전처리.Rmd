@@ -1,0 +1,78 @@
+---
+title: "log전처리"
+output: html_document
+date: "2022-10-14"
+---
+
+### Data load
+```{r}
+library(tidyverse)
+library(lubridate)
+
+log<-read.csv('log_data.csv')
+
+user<-read.csv('merge전처리.csv')
+```
+
+
+### 전처리
+```{r}
+
+# 6월 데이터 제거
+log=log %>% 
+  filter(month(date_cd)!=6)
+
+# loan_per, product_per_app, application_n 변수 추가
+user = user %>% 
+  group_by(user_id) %>% 
+  mutate(application_n=length(unique(application_id)))
+
+
+mer=user %>%
+  ungroup() %>% 
+  select(c(user_id, loan_per, application_n)) %>%
+  distinct() %>% 
+  as.data.frame()
+
+
+log=log %>% 
+  left_join(mer, by='user_id')
+
+#안쓰는 변수 삭제
+log=log %>% 
+  select(-timestamp, -mp_os, -mp_app_version, -date_cd)
+
+#user_id 별 event 별 누적 합
+log2=log %>% 
+  group_by(user_id, event) %>%
+  mutate(n=n()) %>% 
+  distinct() %>% 
+  pivot_wider(names_from = event, values_from = n) %>% 
+  ungroup()
+
+
+user=user %>% 
+  as.data.frame()
+  
+
+u_id=unique(user[,'user_id'])
+
+
+log3=log2 %>% 
+  filter(user_id %in% u_id)
+
+view(head(log3))
+
+colnames(log3)
+log3[is.na(log3)]=0
+
+log3=log3 %>% 
+  filter((StartLoanApply + ViewLoanApplyIntro + EndLoanApply + OpenApp + UseLoanManage +UsePrepayCalc +
+           UseDSRCalc + Login + CompleteIDCertification + SignUp + GetCreditInfo)!=0)
+
+
+
+write.csv(log3, file = "log활용.csv", row.names = F)
+
+```
+

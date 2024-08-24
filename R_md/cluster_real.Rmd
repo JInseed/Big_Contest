@@ -1,0 +1,732 @@
+---
+title: "cluster_real"
+output: html_document
+date: "2022-10-13"
+---
+
+### Data load and 전처리
+```{r}
+library(tidyverse)
+library(caret)
+library(cluster)
+library(factoextra)
+library(kableExtra)
+library(dbscan)
+
+log=read.csv('log활용.csv', fileEncoding = 'cp949')
+
+df=read.csv('final_user.csv', fileEncoding = 'utf-8')
+
+
+#loan_pr => group 변수로 변경
+unique(log[,'loan_per'])
+log=log %>% 
+  mutate(group=ifelse(loan_per=='대출안함',0,
+                      ifelse(loan_per=='대출처음',1,
+                             ifelse(loan_per=='대출2회',2,
+                                    ifelse(loan_per=='대출3회',3,4))))) %>% 
+  select(-loan_per)
+
+#SignUp 제거
+#OpenApp + Login
+#ViewLoanApplyIntro + StartLoanApply + CompleteIDCertification + EndLoanApply
+log=log %>% 
+  select(-SignUp) %>% 
+  mutate(start=(OpenApp + Login)/2 ,
+         loanApply=(ViewLoanApplyIntro + StartLoanApply + 
+                      CompleteIDCertification + EndLoanApply)/4) %>% 
+  select(-OpenApp, -Login, -ViewLoanApplyIntro ,-StartLoanApply, 
+         -CompleteIDCertification ,-EndLoanApply)
+
+
+#기대출이 있는 사람들 뽑아오기
+user=df %>% 
+  filter(existing_loan_cnt!=0) %>% 
+  select(user_id)
+
+user=unique(user[,'user_id'])
+
+ex_log=log %>% 
+  filter(user_id %in% user)
+
+notex_log=log %>% 
+  filter(!(user_id %in% user))
+
+
+# index user_id 설정 후 쓸데없는 변수 제거
+rownames(ex_log)=ex_log[,'user_id']
+rownames(notex_log)=notex_log[,'user_id']
+
+ex_log=ex_log %>% 
+  select(-application_n)
+
+notex_log=notex_log %>% 
+  select(-application_n)
+```
+
+### group 별 데이터 셋 만들기
+```{r}
+ex_0 = ex_log %>% 
+  filter(group==0) %>% 
+  select(-group)
+
+rownames(ex_0)=ex_0[,'user_id']
+
+ex_0 = ex_0 %>% 
+  select(-user_id)
+
+
+ex_1 = ex_log %>% 
+  filter(group==1) %>% 
+  select(-group)
+
+rownames(ex_1)=ex_1[,'user_id']
+
+ex_1 = ex_1 %>% 
+  select(-user_id)
+
+ex_2 = ex_log %>% 
+  filter(group==2) %>% 
+  select(-group)
+
+rownames(ex_2)=ex_2[,'user_id']
+
+ex_2 = ex_2 %>% 
+  select(-user_id)
+
+ex_3 = ex_log %>% 
+  filter(group==3) %>% 
+  select(-group)
+
+rownames(ex_3)=ex_3[,'user_id']
+
+ex_3 = ex_3 %>% 
+  select(-user_id)
+
+ex_n = ex_log %>% 
+  filter(group==4) %>% 
+  select(-group)
+
+rownames(ex_n)=ex_n[,'user_id']
+
+ex_n = ex_n %>% 
+  select(-user_id)
+
+
+
+notex_0 = notex_log %>% 
+  filter(group==0) %>% 
+  select(-group)
+
+rownames(notex_0)=notex_0[,'user_id']
+
+notex_0 = notex_0 %>% 
+  select(-user_id)
+
+notex_1 = notex_log %>% 
+  filter(group==1) %>% 
+  select(-group)
+
+rownames(notex_1)=notex_1[,'user_id']
+
+notex_1 = notex_1 %>% 
+  select(-user_id)
+
+notex_2 = notex_log %>% 
+  filter(group==2) %>% 
+  select(-group)
+
+rownames(notex_2)=notex_2[,'user_id']
+
+notex_2 = notex_2 %>% 
+  select(-user_id)
+
+notex_3 = notex_log %>% 
+  filter(group==3) %>% 
+  select(-group)
+
+rownames(notex_3)=notex_3[,'user_id']
+
+notex_3 = notex_3 %>% 
+  select(-user_id)
+
+notex_n = notex_log %>% 
+  filter(group==4) %>% 
+  select(-group)
+
+rownames(notex_n)=notex_n[,'user_id']
+
+notex_n = notex_n %>% 
+  select(-user_id)
+
+ex_log=ex_log %>% 
+  select(-group)
+
+notex_log=notex_log %>% 
+  select(-group)
+```
+
+### corr plot
+```{r}
+corr=cor(ex_log)
+corrplot::corrplot(corr)
+
+corr=cor(notex_log)
+corrplot::corrplot(corr)
+```
+
+### ex_0
+```{r}
+#ex_0
+ex_0_scale=ex_0
+
+#열 편차 제거
+for (i in 1:dim(ex_0_scale)[2]){
+  ex_0_scale[,i]=(ex_0_scale[,i]/(sd(as.matrix(ex_0_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(ex_0_scale)[1]){
+  ex_0_scale[i,]=(ex_0_scale[i,]/(sd(as.matrix(ex_0_scale[i,]))))^(1/30)
+}
+
+
+db1=dbscan(ex_0_scale,  eps = 0.4 , MinPts = log(nrow(ex_0_scale)))
+
+fviz_cluster(db1, ex_0_scale,  geom = "point")
+
+ex_0_scale$cluster=db1$cluster
+
+result=ex_0_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+
+
+```
+
+
+
+### ex_1
+
+```{r}
+#ex_1
+ex_1_scale=ex_1
+
+#열 편차 제거
+for (i in 1:dim(ex_1_scale)[2]){
+  ex_1_scale[,i]=(ex_1_scale[,i]/(sd(as.matrix(ex_1_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(ex_1_scale)[1]){
+  ex_1_scale[i,]=(ex_1_scale[i,]/(sd(as.matrix(ex_1_scale[i,]))))^(1/30)
+}
+
+
+db2=dbscan(ex_1_scale,  eps = 0.56 , MinPts = log(nrow(ex_1_scale)))
+
+fviz_cluster(db2, ex_1_scale, , geom = "point")
+
+ex_1_scale$cluster=db2$cluster
+
+result=ex_1_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+### ex_2
+```{r}
+#ex_2
+ex_2_scale=ex_2
+
+#열 편차 제거
+for (i in 1:dim(ex_2_scale)[2]){
+  ex_2_scale[,i]=(ex_2_scale[,i]/(sd(as.matrix(ex_2_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(ex_2_scale)[1]){
+  ex_2_scale[i,]=(ex_2_scale[i,]/(sd(as.matrix(ex_2_scale[i,]))))^(1/30)
+}
+
+
+db3=dbscan(ex_2_scale, eps = 0.6 , MinPts = log(nrow(ex_2_scale)))
+
+fviz_cluster(db3, ex_2_scale, , geom = "point")
+
+ex_2_scale$cluster=db3$cluster
+
+result=ex_2_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+
+### ex_3
+```{r}
+#ex_3
+ex_3_scale=ex_3
+
+#열 편차 제거
+for (i in 1:dim(ex_3_scale)[2]){
+  ex_3_scale[,i]=(ex_3_scale[,i]/(sd(as.matrix(ex_3_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(ex_3_scale)[1]){
+  ex_3_scale[i,]=(ex_3_scale[i,]/(sd(as.matrix(ex_3_scale[i,]))))^(1/30)
+}
+
+
+db4=dbscan(ex_3_scale,  eps = 0.62 , MinPts = log(nrow(ex_3_scale)))
+
+fviz_cluster(db4, ex_3_scale, , geom = "point")
+
+
+ex_3_scale$cluster=db4$cluster
+
+result=ex_3_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+### ex_n
+```{r}
+#ex_n
+ex_n_scale=ex_n
+
+#열 편차 제거
+for (i in 1:dim(ex_n_scale)[2]){
+  ex_n_scale[,i]=(ex_n_scale[,i]/(sd(as.matrix(ex_n_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(ex_n_scale)[1]){
+  ex_n_scale[i,]=(ex_n_scale[i,]/(sd(as.matrix(ex_n_scale[i,]))))^(1/30)
+}
+
+
+db5=dbscan(ex_n_scale,  eps = 0.44 , MinPts = log(nrow(ex_n_scale)))
+
+fviz_cluster(db5, ex_n_scale, , geom = "point")
+
+ex_n_scale$cluster=db5$cluster
+
+result=ex_n_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+
+### notex_0
+```{r}
+#notex_0
+notex_0_scale=notex_0
+
+#열 편차 제거
+for (i in 1:dim(notex_0_scale)[2]){
+  notex_0_scale[,i]=(notex_0_scale[,i]/(sd(as.matrix(notex_0_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(notex_0_scale)[1]){
+  notex_0_scale[i,]=(notex_0_scale[i,]/(sd(as.matrix(notex_0_scale[i,]))))^(1/30)
+}
+
+db6=dbscan(notex_0_scale,  eps = 0.56 , MinPts = log(nrow(notex_0_scale)))
+
+fviz_cluster(db6, notex_0_scale, , geom = "point")
+
+
+notex_0_scale$cluster=db6$cluster
+
+result=notex_0_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+## notex_1
+```{r}
+#notex_1
+notex_1_scale=notex_1
+
+#열 편차 제거
+for (i in 1:dim(notex_1_scale)[2]){
+  notex_1_scale[,i]=(notex_1_scale[,i]/(sd(as.matrix(notex_1_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(notex_1_scale)[1]){
+  notex_1_scale[i,]=(notex_1_scale[i,]/(sd(as.matrix(notex_1_scale[i,]))))^(1/30)
+}
+
+
+db7=dbscan(notex_1_scale,  eps = 0.61 , MinPts = log(nrow(notex_1_scale)))
+
+fviz_cluster(db7, notex_1_scale, , geom = "point")
+
+notex_1_scale$cluster=db7$cluster
+
+result=notex_1_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+
+
+### notex_2
+```{r}
+#notex_2
+notex_2_scale=notex_2
+
+#열 편차 제거
+for (i in 1:dim(notex_2_scale)[2]){
+  notex_2_scale[,i]=(notex_2_scale[,i]/(sd(as.matrix(notex_2_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(notex_2_scale)[1]){
+  notex_2_scale[i,]=(notex_2_scale[i,]/(sd(as.matrix(notex_2_scale[i,]))))^(1/30)
+}
+
+
+db8=dbscan(notex_2_scale,  eps = 0.64 , MinPts = log(nrow(notex_2_scale)))
+
+fviz_cluster(db8, notex_2_scale, , geom = "point")
+
+notex_2_scale$cluster=db8$cluster
+
+result=notex_2_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+
+### notex_3
+```{r}
+#notex_3
+notex_3_scale=notex_3
+
+#열 편차 제거
+for (i in 1:dim(notex_3_scale)[2]){
+  notex_3_scale[,i]=(notex_3_scale[,i]/(sd(as.matrix(notex_3_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(notex_3_scale)[1]){
+  notex_3_scale[i,]=(notex_3_scale[i,]/(sd(as.matrix(notex_3_scale[i,]))))^(1/30)
+}
+
+
+db9=dbscan(notex_3_scale,  eps = 0.59 , MinPts = log(nrow(notex_3_scale)))
+
+fviz_cluster(db9, notex_3_scale, , geom = "point")
+
+notex_3_scale$cluster=db9$cluster
+
+result=notex_3_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+```
+
+
+
+### notex_n
+```{r}
+#notex_n
+notex_n_scale=notex_n
+
+#열 편차 제거
+for (i in 1:dim(notex_n_scale)[2]){
+  notex_n_scale[,i]=(notex_n_scale[,i]/(sd(as.matrix(notex_n_scale[,i]))))^(12)
+}
+
+#행 편차 제거
+for (i in 1:dim(notex_n_scale)[1]){
+  notex_n_scale[i,]=(notex_n_scale[i,]/(sd(as.matrix(notex_n_scale[i,]))))^(1/30)
+}
+
+
+db10=dbscan(notex_n_scale,  eps = 0.5073 , MinPts = log(nrow(notex_n_scale)))
+
+fviz_cluster(db10, notex_n_scale, , geom = "point")
+
+notex_n_scale$cluster=db10$cluster
+
+result=notex_n_scale %>% 
+  group_by(cluster) %>% 
+  summarise(GetCreditInfo=mean(GetCreditInfo),
+            UseLoanManage=mean(UseLoanManage),
+            UsePrepayCalc=mean(UsePrepayCalc),
+            UseDSRCalc=mean(UseDSRCalc),
+            start=mean(start),
+            loanApply=mean(loanApply)) %>% 
+  as.data.frame()
+
+rownames(result)=result[,'cluster']
+
+result %>% 
+  select(-cluster) %>% 
+  t()  %>%  
+  kable("pandoc", digits = 3)
+
+```
+
+
+### cluster 변수 생성 후 user data and log data에 결합
+```{r}
+ex_0=ex_0 %>% 
+  mutate(model=1) %>% 
+  as.data.frame()
+
+ex_0$cluster=db1$cluster
+ex_0$user_id=as.integer(rownames(ex_0))
+
+mode1=ex_0 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+ex_1=ex_1 %>% 
+  mutate(model=2) %>% 
+  as.data.frame()
+
+ex_1$cluster=db2$cluster
+ex_1$user_id=as.integer(rownames(ex_1))
+
+mode2=ex_1 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+ex_2=ex_2 %>% 
+  mutate(model=3) %>% 
+  as.data.frame()
+
+ex_2$cluster=db3$cluster
+ex_2$user_id=as.integer(rownames(ex_2))
+
+mode3=ex_2 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+ex_3=ex_3 %>% 
+  mutate(model=4) %>% 
+  as.data.frame()
+
+ex_3$cluster=db4$cluster
+ex_3$user_id=as.integer(rownames(ex_3))
+
+mode4=ex_3 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+ex_n=ex_n %>% 
+  mutate(model=5) %>% 
+  as.data.frame()
+
+ex_n$cluster=db5$cluster
+ex_n$user_id=as.integer(rownames(ex_n))
+
+mode5=ex_n %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+notex_0=notex_0 %>% 
+  mutate(model=6) %>% 
+  as.data.frame()
+
+notex_0$cluster=db6$cluster
+notex_0$user_id=as.integer(rownames(notex_0))
+
+mode6=notex_0 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+notex_1=notex_1 %>% 
+  mutate(model=7) %>% 
+  as.data.frame()
+
+notex_1$cluster=db7$cluster
+notex_1$user_id=as.integer(rownames(notex_1))
+
+mode7=notex_1 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+notex_2=notex_2 %>% 
+  mutate(model=8) %>% 
+  as.data.frame()
+
+notex_2$cluster=db8$cluster
+notex_2$user_id=as.integer(rownames(notex_2))
+
+mode8=notex_2 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+notex_3=notex_3 %>% 
+  mutate(model=9) %>% 
+  as.data.frame()
+
+notex_3$cluster=db9$cluster
+notex_3$user_id=as.integer(rownames(notex_3))
+
+mode9=notex_3 %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+notex_n=notex_n %>% 
+  mutate(model=10) %>% 
+  as.data.frame()
+
+notex_n$cluster=db10$cluster
+notex_n$user_id=as.integer(rownames(notex_n))
+
+mode10=notex_n %>% 
+  select(user_id, model, cluster) %>% 
+  as.data.frame()
+
+
+
+clus=rbind(mode1,mode2,mode3,mode4,mode5,mode6,mode7,mode8,mode9,mode10)
+
+df=df %>% 
+  left_join(clus, by='user_id')
+
+log=log %>% 
+  left_join(clus, by='user_id')
+```
+
+
+```{r}
+write.csv(log, file = "log활용_cluster.csv", row.names = F)
+write.csv(df, file = "final_user_cluster.csv", row.names = F)
+
+```
+
+
+
+
+

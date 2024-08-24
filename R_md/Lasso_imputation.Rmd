@@ -1,0 +1,150 @@
+---
+title: "Lasso_imputation"
+output: html_document
+date: "2022-10-13"
+---
+
+## Data load 및 전처리
+```{r}
+library(caret)
+library(modelr)
+library(glmnet)
+library(tidyverse)
+
+#data load
+user=read.csv('C:/Users/82102/OneDrive - dongguk.edu/바탕 화면/2022 빅콘/빅콘 R/user전처리.csv')
+
+con=read.csv('C:/Users/82102/OneDrive - dongguk.edu/바탕 화면/2022 빅콘/data/loan_result.csv', header=T, fileEncoding = 'utf-8')
+
+loan=con %>% 
+  filter(!is.na(loan_limit))
+
+
+#factor 형으로 만들기
+user= user %>% 
+  mutate(gender=as.factor(gender),
+         income_type=as.factor(income_type),
+         employment_type=as.factor(employment_type),
+         houseown_type=as.factor(houseown_type),
+         purpose=as.factor(purpose),
+         age=as.factor(age),
+         work_year=as.factor(work_year),
+         rehabilitation=as.factor(rehabilitation),
+         loan_per=as.factor(loan_per)
+  ) %>% 
+  select(-insert_time)
+
+#scaling
+user[,'yearly_income']=scale(user[,'yearly_income'], center = FALSE) %>% as.data.frame()
+user[,'desired_amount']=scale(user[,'desired_amount'], center = FALSE)%>% as.data.frame()
+user[,'existing_loan_cnt']=scale(user[,'existing_loan_cnt'], center = FALSE)%>% as.data.frame()
+user[,'existing_loan_amt']=scale(user[,'existing_loan_amt'], center = FALSE)%>% as.data.frame()
+user[,'product_per_app']=scale(user[,'product_per_app'], center = FALSE)%>% as.data.frame()
+
+#credit_score 결측 유무로 data split
+na_user= user %>% 
+  filter(is.na(credit_score)) %>% 
+  as.data.frame()
+
+nor_user= user %>% 
+  filter(!is.na(credit_score)) %>% 
+  as.data.frame()
+
+#sample 추출
+set.seed(2022)
+train1=sample(nrow(nor_user), 80000)
+
+user_sample1=nor_user[train,]
+user_train1=user_sample1[1:72000,]
+user_test1=user_sample1[72001:80000,]
+
+set.seed(2021)
+train2=sample(nrow(nor_user), 80000)
+
+user_sample2=nor_user[train,]
+user_train2=user_sample2[1:72000,]
+user_test2=user_sample2[72001:80000,]
+
+set.seed(2020)
+train=sample(nrow(nor_user), 80000)
+
+user_sample=nor_user[train,]
+user_train=user_sample[1:72000,]
+user_test=user_sample[72001:80000,]
+
+
+#imputation 에 쓸 변수 선정 및 matrix 변환
+X_train=user_train %>% 
+  select(-application_id,-user_id,-credit_score)
+
+X_train=model.matrix(~.,data=X_train)[,-1]
+X_train=unlist(X_train)
+
+y_train=user_train[,'credit_score']
+
+X_test=user_test %>% 
+  select(-application_id,-user_id,-credit_score)
+
+X_test=model.matrix(~.,data=X_test)[,-1]
+X_test=unlist(X_test)
+
+y_test=user_test[,'credit_score']
+
+```
+
+## Modeling
+```{r}
+#최적 람다 찾기
+lam <- cv.glmnet(X, y, family='gaussian', alpha=1, nfolds = 3)
+lamda=lam$lambda.min # MSE 최소화 lambda = 0.076945
+plot(lam)  
+```
+
+```{r}
+#lambda = 0.07759729 일 때 RMSE
+sqrt(lam$cvm)[length(lam$cvm)]
+
+fit=glmnet(X, y , family='gaussian', alpha=1, lambda = lamda)
+```
+
+## Coefficient
+```{r}
+coef <- data.frame(coef.name = dimnames(coef(fit))[[1]], 
+                   coef.value = matrix(coef(fit)))
+
+# exclude the (Intercept) term
+coef <- coef[-1,]
+
+# print summary of model results
+picked_features <- nrow(dplyr::filter(coef,coef.value!=0)) #yk dplyr::filter
+lasso_features <- dplyr::filter(coef,coef.value!=0)
+not_picked_features <- nrow(dplyr::filter(coef,coef.value==0))
+
+cat("Lasso picked",picked_features,"variables and eliminated the other",
+    not_picked_features,"variables\n")
+```
+
+## Feature importance
+```{r}
+# sort coefficients in ascending order
+coef <- dplyr::arrange(coef,-coef.value)
+
+# extract the top 12 and bottom 12 features
+imp_coef <- rbind(head(coef,12),
+                  tail(coef,12))
+
+ggplot(imp_coef) +
+  geom_bar(aes(x=reorder(coef.name,coef.value),y=coef.value),
+           stat="identity",
+           fill=c(rep('red',12),rep('blue',12)),
+           alpha=0.5) +
+  coord_flip() +
+  ggtitle("Coefficents in the Lasso Model") +
+  theme(axis.title=element_blank())
+
+```
+
+
+
+
+
