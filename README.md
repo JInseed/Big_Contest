@@ -63,7 +63,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
 </p>
 
 <p align="center" width="100%">
@@ -72,7 +72,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="50">
 </p>
 
 ### *user_spec preprocessing*
