@@ -62,18 +62,14 @@
   <img src="https://github.com/user-attachments/assets/a8418ef3-07c8-4020-be80-fc1f47a05875" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
+<br><br>
 
 <p align="center" width="100%">
   <img src="https://github.com/user-attachments/assets/aa34f7aa-721c-4099-b8a9-a5eeb13dabe5" align="left" width="48%">
   <img src="https://github.com/user-attachments/assets/f7e20a48-1699-4eeb-8833-d48129731518" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
-</p>
+<br><br>
 
 ### *user_spec preprocessing*
 <br>
