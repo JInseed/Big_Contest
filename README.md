@@ -84,7 +84,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
 </p>
 
 <p align="center" width="100%">
@@ -93,7 +93,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
 </p>
 
 <p align="center" width="100%">
@@ -102,13 +102,13 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
 </p>
 
 <img src = "https://github.com/user-attachments/assets/5401c2c2-0136-486d-b6a5-447e96549776" align = "left" width = "48%">
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="250">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="250">
 </p>
 
 
@@ -119,7 +119,7 @@
 <br><br>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="40">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="40">
 </p>
 
 <p align="center" width="100%">
@@ -128,7 +128,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="50">
 </p>
 
 ### *log data preprocessing*
@@ -140,7 +140,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="50">
 </p>
 
 ### *credit_score 결측치 대체*
@@ -152,7 +152,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="50">
 </p>
 
 ### *데이터 불균형 처리 및 대출 신청 고객 예측*
@@ -164,7 +164,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
 </p>
 
 <p align="center" width="100%">
@@ -173,7 +173,7 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="50">
 </p>
 
 ### *고객군집화*
@@ -185,13 +185,13 @@
 </p>
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
 </p>
 
 <img src = "https://github.com/user-attachments/assets/b24a98ab-08e9-4c13-88d7-b999697a8079" align = "center" width = "80%">
 
 <p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="30">
+  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="30">
 </p>
 
 - 위의 표와 같이 기대출이 존재하는 집단 및 존재하지 않은 집단을 대출 신청 횟수에 따라 모두 군집화를 진행
