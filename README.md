@@ -57,142 +57,178 @@
 ### *데이터 형태*
 <br>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/7430242f-0c36-43dc-864a-584f8cda37f4" align="left" width="50%">
-  <img src="https://github.com/user-attachments/assets/a8418ef3-07c8-4020-be80-fc1f47a05875" align="right" width="50%">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/7430242f-0c36-43dc-864a-584f8cda37f4" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/a8418ef3-07c8-4020-be80-fc1f47a05875" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
-
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/aa34f7aa-721c-4099-b8a9-a5eeb13dabe5" align="left" width="50%">
-  <img src="https://github.com/user-attachments/assets/f7e20a48-1699-4eeb-8833-d48129731518" align="right" width="50%">
-</p>
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/aa34f7aa-721c-4099-b8a9-a5eeb13dabe5" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/f7e20a48-1699-4eeb-8833-d48129731518" width="95%">
+    </td>
+  </tr>
+</table>
+<br>
 
 ### *user_spec preprocessing*
 <br>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/7e53b2d8-88b6-482e-89d1-6ec3c09f5792" align="left" width="50%">
-  <img src="https://github.com/user-attachments/assets/4fbdffeb-d6e5-4d18-ba4a-cbf87376d169" align="right" width="50%">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/7e53b2d8-88b6-482e-89d1-6ec3c09f5792" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/4fbdffeb-d6e5-4d18-ba4a-cbf87376d169" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/f9719884-1d56-41d7-a260-65b175edd204" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/30023d91-bc2b-406d-a445-9a931104041d" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/f9719884-1d56-41d7-a260-65b175edd204" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/30023d91-bc2b-406d-a445-9a931104041d" align="right" width="48%">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/0ea85ca6-4a01-4591-b322-e387c8163561" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/076efb18-2415-45f0-bb66-455f1fbb38e4" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
-
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/0ea85ca6-4a01-4591-b322-e387c8163561" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/076efb18-2415-45f0-bb66-455f1fbb38e4" align="right" width="48%">
-</p>
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
-
-<img src = "https://github.com/user-attachments/assets/5401c2c2-0136-486d-b6a5-447e96549776" align = "left" width = "48%">
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="250">
-</p>
-
+<table width="100%">
+  <tr>
+    <td align="center" colspan="2">
+      <img src="https://github.com/user-attachments/assets/5401c2c2-0136-486d-b6a5-447e96549776" width="48%">
+    </td>
+  </tr>
+</table>
+<br>
 
 ### *merged_data preprocessing*
 <br>
 
-<img src = "https://github.com/user-attachments/assets/ad019cd4-7185-43cb-b94d-916e83d818a6" align = "center" width = "80%">
-<br><br>
+<table width="100%">
+  <tr>
+    <td align="center" colspan="2">
+      <img src="https://github.com/user-attachments/assets/ad019cd4-7185-43cb-b94d-916e83d818a6" width="80%">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="40">
-</p>
-
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/e3b34722-7d1f-4d2b-a230-555b9b1b1224" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/c735c9d1-3956-4519-8d4f-3bbd600b0ac1" align="right" width="48%">
-</p>
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/e3b34722-7d1f-4d2b-a230-555b9b1b1224" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/c735c9d1-3956-4519-8d4f-3bbd600b0ac1" width="95%">
+    </td>
+  </tr>
+</table>
+<br>
 
 ### *log data preprocessing*
 <br>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/e5d824f8-d67a-40cb-bc20-bd04f5ffe12e" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/4b74f4de-d137-4451-a771-3dc5ca95ccee" align="right" width="48%">
-</p>
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/e5d824f8-d67a-40cb-bc20-bd04f5ffe12e" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/4b74f4de-d137-4451-a771-3dc5ca95ccee" width="95%">
+    </td>
+  </tr>
+</table>
+<br>
 
 ### *credit_score 결측치 대체*
 <br>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/ab145cdf-a193-42b2-a863-fb811568bc78" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/a46f6453-657f-4c8b-87a2-24071a57af40" align="right" width="48%">
-</p>
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/ab145cdf-a193-42b2-a863-fb811568bc78" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/a46f6453-657f-4c8b-87a2-24071a57af40" width="95%">
+    </td>
+  </tr>
+</table>
+<br>
 
 ### *데이터 불균형 처리 및 대출 신청 고객 예측*
 <br>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/9d7a58d5-dae0-4a67-beaf-0df6a04f1380" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/d31a6556-992b-465a-9260-0536d17faf1b" align="right" width="48%">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/9d7a58d5-dae0-4a67-beaf-0df6a04f1380" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/d31a6556-992b-465a-9260-0536d17faf1b" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/171fe515-db50-4586-912d-c2e723fd23a1" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/dd6214e6-63bb-4814-95cc-4b738f0c4d93" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/171fe515-db50-4586-912d-c2e723fd23a1" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/dd6214e6-63bb-4814-95cc-4b738f0c4d93" align="right" width="48%">
-</p>
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="50">
-</p>
+<br>
+<br>
 
 ### *고객군집화*
 <br>
 
-<p align="center" width="100%">
-  <img src="https://github.com/user-attachments/assets/39455a1a-d21a-4ba1-9884-bac2476d153b" align="left" width="48%">
-  <img src="https://github.com/user-attachments/assets/ced43479-850c-476c-ba8c-c647d549ec95" align="right" width="48%">
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" width="50%">
+      <img src="https://github.com/user-attachments/assets/39455a1a-d21a-4ba1-9884-bac2476d153b" width="95%">
+    </td>
+    <td align="right" width="50%">
+      <img src="https://github.com/user-attachments/assets/ced43479-850c-476c-ba8c-c647d549ec95" width="95%">
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="10">
-</p>
+<table width="100%">
+  <tr>
+    <td align="center" colspan="2">
+      <img src="https://github.com/user-attachments/assets/b24a98ab-08e9-4c13-88d7-b999697a8079" width="80%">
+    </td>
+  </tr>
+</table>
 
-<img src = "https://github.com/user-attachments/assets/b24a98ab-08e9-4c13-88d7-b999697a8079" align = "center" width = "80%">
-
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="1" height="30">
-</p>
+<br>
 
 - 위의 표와 같이 기대출이 존재하는 집단 및 존재하지 않은 집단을 대출 신청 횟수에 따라 모두 군집화를 진행
 - 군집 간의 특징이 두드러졌으나 집단을 나누어서 군집화를 진행하여 군집이 너무 많이 발생했고 이를 해석하는 방법을 기간 내에 찾지 못해 결과물을 완성시키지 못함
