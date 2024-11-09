@@ -62,18 +62,16 @@
   <img src="https://github.com/user-attachments/assets/a8418ef3-07c8-4020-be80-fc1f47a05875" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
-</p>
+<br>
+<br>
 
 <p align="center" width="100%">
   <img src="https://github.com/user-attachments/assets/aa34f7aa-721c-4099-b8a9-a5eeb13dabe5" align="left" width="48%">
   <img src="https://github.com/user-attachments/assets/f7e20a48-1699-4eeb-8833-d48129731518" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="50">
-</p>
+<br>
+<br>
 
 ### *user_spec preprocessing*
 <br>
@@ -83,33 +81,29 @@
   <img src="https://github.com/user-attachments/assets/4fbdffeb-d6e5-4d18-ba4a-cbf87376d169" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
-</p>
+<br>
+<br>
 
 <p align="center" width="100%">
   <img src="https://github.com/user-attachments/assets/f9719884-1d56-41d7-a260-65b175edd204" align="left" width="48%">
   <img src="https://github.com/user-attachments/assets/30023d91-bc2b-406d-a445-9a931104041d" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
-</p>
+<br>
+<br>
 
 <p align="center" width="100%">
   <img src="https://github.com/user-attachments/assets/0ea85ca6-4a01-4591-b322-e387c8163561" align="left" width="48%">
   <img src="https://github.com/user-attachments/assets/076efb18-2415-45f0-bb66-455f1fbb38e4" align="right" width="48%">
 </p>
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="10">
-</p>
+<br>
+<br>
 
 <img src = "https://github.com/user-attachments/assets/5401c2c2-0136-486d-b6a5-447e96549776" align = "left" width = "48%">
 
-<p align="center">
-  <img src="https://dummyimage.com/1x100/ffffff/ffffff" width="100" height="250">
-</p>
+<br>
+<br>
 
 
 ### *merged_data preprocessing*
