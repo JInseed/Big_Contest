@@ -118,7 +118,7 @@
 
 <table width="100%">
   <tr>
-    <td align="center" colspan="2">
+    <td align="center">
       <img src="https://github.com/user-attachments/assets/5401c2c2-0136-486d-b6a5-447e96549776" width="48%">
     </td>
   </tr>
@@ -130,7 +130,7 @@
 
 <table width="100%">
   <tr>
-    <td align="center" colspan="2">
+    <td align="center">
       <img src="https://github.com/user-attachments/assets/ad019cd4-7185-43cb-b94d-916e83d818a6" width="80%">
     </td>
   </tr>
@@ -222,7 +222,7 @@
 
 <table width="100%">
   <tr>
-    <td align="center" colspan="2">
+    <td align="center">
       <img src="https://github.com/user-attachments/assets/b24a98ab-08e9-4c13-88d7-b999697a8079" width="80%">
     </td>
   </tr>
